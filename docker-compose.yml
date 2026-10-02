@@ -1,0 +1,22 @@
+services:
+  santak-nut-bridge:
+    build: .
+    container_name: santak-nut-bridge
+    restart: unless-stopped
+    user: "0:0"
+    devices:
+      - "${UPS_DEVICE:-/dev/ttyACM0}:/dev/ups"
+    ports:
+      - "3493:3493/tcp"
+    environment:
+      UPS_SERIAL: /dev/ups
+      UPS_LISTEN: 0.0.0.0:3493
+      UPS_NAME: ups
+      UPS_USER: monuser
+      UPS_PASSWORD: secret
+      UPS_MANUFACTURER: SANTAK
+      UPS_MODEL: Megatec/Q1 UPS
+      UPS_POLL: 5s
+      UPS_STALE_AFTER: 30s
+      UPS_BATTERY_LOW: "1.75"
+      UPS_BATTERY_HIGH: "2.30"
